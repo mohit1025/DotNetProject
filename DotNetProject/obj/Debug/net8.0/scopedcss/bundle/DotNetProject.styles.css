@@ -8,9 +8,6 @@ a.navbar-brand[b-ambmcsisjs] {
   word-break: break-all;
 }
 
-a[b-ambmcsisjs] {
-  color: #0077cc;
-}
 
 .btn-primary[b-ambmcsisjs] {
   color: #fff;
@@ -46,4 +43,12 @@ button.accept-policy[b-ambmcsisjs] {
   width: 100%;
   white-space: nowrap;
   line-height: 60px;
+}
+/* ===== NAVBAR DROPDOWN FIX (FINAL) ===== */
+.navbar .dropdown-menu[b-ambmcsisjs] {
+    --bs-dropdown-link-color: #212529;
+    --bs-dropdown-link-hover-color: #ffffff;
+    --bs-dropdown-link-hover-bg: #192e2f;
+    --bs-dropdown-link-active-color: #ffffff;
+    --bs-dropdown-link-active-bg: #192e2f;
 }
