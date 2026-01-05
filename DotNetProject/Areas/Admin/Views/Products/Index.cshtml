@@ -1,61 +1,100 @@
 @using Web.Models
-@model List<Products>
+@model IEnumerable<Products>
 
 <style>
-    .card-custom { border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-    .btn-rounded { border-radius: 8px; }
+    /* Page Header */
+    .page-header {
+        background: linear-gradient(135deg, #4f46e5, #3b82f6);
+        border-radius: 16px;
+        color: #fff;
+        padding: 20px 24px;
+    }
+
+    /* Container Card */
+    .content-wrapper {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+    }
+
+    /* Table Styling */
+    #tblData thead th {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        color: #6b7280;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    #tblData tbody tr:hover {
+        background-color: #f9fafb;
+    }
+
+    #tblData td {
+        vertical-align: middle;
+    }
+
+    /* Buttons */
+    .btn-soft-primary {
+        background-color: #eef2ff;
+        color: #4338ca;
+        border: none;
+    }
+
+    .btn-soft-primary:hover {
+        background-color: #e0e7ff;
+        color: #3730a3;
+    }
+
+    .btn-soft-danger {
+        background-color: #fee2e2;
+        color: #b91c1c;
+        border: none;
+    }
+
+    .btn-soft-danger:hover {
+        background-color: #fecaca;
+        color: #991b1b;
+    }
 </style>
 
 <div class="container mt-4">
-    <div class="card card-custom">
-        <div class="card-header bg-white">
-            <div class="row align-items-center">
-                <div class="col-6">
-                    <h4 class="text-primary mb-0">Product List</h4>
-                </div>
-                <div class="col-6 text-end">
-                    <a asp-controller="Products" asp-action="Create" class="btn btn-primary btn-rounded">
-                        <i class="bi bi-plus-circle me-1"></i> Create New Product
-                    </a>
-                </div>
-            </div>
+
+    <!-- Header -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="mb-1">Products</h3>
+            <small class="opacity-75">Manage all available products</small>
         </div>
-        <div class="card-body p-0">
-            <table class="table table-striped table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>ISBN</th>
-                        <th class="text-end">Price</th>
-                        <th class="text-center">Category</th>
-                        <th class="text-center">Actions</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var obj in Model.OrderBy(p => p.Title))
-                    {
-                        <tr>
-                            <td class="align-middle">@obj.Title</td>
-                            <td class="align-middle">@obj.Author</td>
-                            <td class="align-middle">@obj.ISBN</td>
-                            <td class="align-middle text-end">@obj.ListPrice.ToString("")</td>
-                            <td class="align-middle text-center">@obj.Category?.Name</td>
-                            <td class="align-middle text-center">
-                                <div class="btn-group" role="group">
-                                    <a asp-controller="Products" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-outline-primary btn-sm btn-rounded me-2">
-                                        <i class="bi bi-pen"></i> Edit
-                                    </a>
-                                    <a asp-controller="Products" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-outline-danger btn-sm btn-rounded">
-                                        <i class="bi bi-trash3"></i> Delete
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        <a asp-controller="Products"
+           asp-action="Upsert"
+           class="btn btn-light fw-semibold">
+            <i class="bi bi-plus-lg me-1"></i>
+            New Product
+        </a>
     </div>
+
+    <!-- Table -->
+    <div class="content-wrapper p-3">
+        <table id="tblData" class="table table-borderless align-middle w-100">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th class="text-end">Price</th>
+                    <th class="text-center">Category</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
 </div>
+
+@section Scripts {
+    <script src="~/js/Product.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+}
