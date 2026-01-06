@@ -1,0 +1,12 @@
+/workspaces/codespaces-blank/Web.Utilities/bin/Debug/net8.0/Web.Utilities.deps.json
+/workspaces/codespaces-blank/Web.Utilities/bin/Debug/net8.0/Web.Utilities.dll
+/workspaces/codespaces-blank/Web.Utilities/bin/Debug/net8.0/Web.Utilities.pdb
+/workspaces/codespaces-blank/Web.Utilities/obj/Debug/net8.0/Web.Utilities.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/codespaces-blank/Web.Utilities/obj/Debug/net8.0/Web.Utilities.AssemblyInfoInputs.cache
+/workspaces/codespaces-blank/Web.Utilities/obj/Debug/net8.0/Web.Utilities.AssemblyInfo.cs
+/workspaces/codespaces-blank/Web.Utilities/obj/Debug/net8.0/Web.Utilities.csproj.CoreCompileInputs.cache
+/workspaces/codespaces-blank/Web.Utilities/obj/Debug/net8.0/Web.Utilities.sourcelink.json
+/workspaces/codespaces-blank/Web.Utilities/obj/Debug/net8.0/Web.Utilities.dll
+/workspaces/codespaces-blank/Web.Utilities/obj/Debug/net8.0/refint/Web.Utilities.dll
+/workspaces/codespaces-blank/Web.Utilities/obj/Debug/net8.0/Web.Utilities.pdb
+/workspaces/codespaces-blank/Web.Utilities/obj/Debug/net8.0/ref/Web.Utilities.dll

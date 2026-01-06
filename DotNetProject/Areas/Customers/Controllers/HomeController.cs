@@ -1,16 +1,35 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DotNetProject.Models;
+using Web.DataAccess.Repository;
+using Web.Models;
 
 namespace DotNetProject.Controllers;
 
 [Area("Customers")]
 public class HomeController : Controller
 {
+
+     private readonly IUnitOfWork _db;
+     private readonly ILogger<HomeController> _logger;
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork db)
+        {
+            _db = db;
+            _logger = logger;
+            
+        }
     public IActionResult Index()
     {
-        return View();
+        IEnumerable<Products> objProductList = _db.Product.GetAll(includeProperties: "Category");
+        return View(objProductList);
     }
+
+    public IActionResult Details(int id)
+    {
+        Products objProduct = _db.Product.Get(u => u.Id == id, includeProperties: "Category");
+        return View(objProduct);
+    }
+
 
     public IActionResult Privacy()
     {

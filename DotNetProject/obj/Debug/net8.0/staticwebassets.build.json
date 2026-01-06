@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Cm2LvEZr94kR6tEu8N5y5x5DfQVHtTVyE43c3cKaYfQ=",
+  "Hash": "Fl4zrSM6++bxzoTEvvvTMcr8JuWMXphfUoXi4XKntc8=",
   "Source": "DotNetProject",
   "BasePath": "_content/DotNetProject",
   "Mode": "Default",
@@ -112,12 +112,12 @@
       "OriginalItemSpec": "wwwroot/Images/Product/2330a86a-2b97-425c-982a-925304bc4860.png"
     },
     {
-      "Identity": "/workspaces/codespaces-blank/DotNetProject/wwwroot/Images/Product/3f10fa2c-8cab-41dd-8c2d-30accb30219e.png",
+      "Identity": "/workspaces/codespaces-blank/DotNetProject/wwwroot/Images/Product/724d012a-777a-402f-aaac-2db82909e72d.png",
       "SourceId": "DotNetProject",
       "SourceType": "Discovered",
       "ContentRoot": "/workspaces/codespaces-blank/DotNetProject/wwwroot/",
       "BasePath": "_content/DotNetProject",
-      "RelativePath": "Images/Product/3f10fa2c-8cab-41dd-8c2d-30accb30219e.png",
+      "RelativePath": "Images/Product/724d012a-777a-402f-aaac-2db82909e72d.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -128,7 +128,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/Images/Product/3f10fa2c-8cab-41dd-8c2d-30accb30219e.png"
+      "OriginalItemSpec": "wwwroot/Images/Product/724d012a-777a-402f-aaac-2db82909e72d.png"
     },
     {
       "Identity": "/workspaces/codespaces-blank/DotNetProject/wwwroot/Images/Product/7d8ff75f-05b3-4fae-a417-3c68a7ccb6cf.png",
@@ -150,25 +150,6 @@
       "OriginalItemSpec": "wwwroot/Images/Product/7d8ff75f-05b3-4fae-a417-3c68a7ccb6cf.png"
     },
     {
-      "Identity": "/workspaces/codespaces-blank/DotNetProject/wwwroot/Images/Product/948e2f52-2f47-44af-88ab-04dc95399f71.png",
-      "SourceId": "DotNetProject",
-      "SourceType": "Discovered",
-      "ContentRoot": "/workspaces/codespaces-blank/DotNetProject/wwwroot/",
-      "BasePath": "_content/DotNetProject",
-      "RelativePath": "Images/Product/948e2f52-2f47-44af-88ab-04dc95399f71.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/Images/Product/948e2f52-2f47-44af-88ab-04dc95399f71.png"
-    },
-    {
       "Identity": "/workspaces/codespaces-blank/DotNetProject/wwwroot/Images/Product/b010a331-fa9b-4da7-ad1d-52ba618feebc.png",
       "SourceId": "DotNetProject",
       "SourceType": "Discovered",
@@ -186,25 +167,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/Images/Product/b010a331-fa9b-4da7-ad1d-52ba618feebc.png"
-    },
-    {
-      "Identity": "/workspaces/codespaces-blank/DotNetProject/wwwroot/Images/Product/c72020c7-4311-40ef-8df9-09d9c477026a.png",
-      "SourceId": "DotNetProject",
-      "SourceType": "Discovered",
-      "ContentRoot": "/workspaces/codespaces-blank/DotNetProject/wwwroot/",
-      "BasePath": "_content/DotNetProject",
-      "RelativePath": "Images/Product/c72020c7-4311-40ef-8df9-09d9c477026a.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/Images/Product/c72020c7-4311-40ef-8df9-09d9c477026a.png"
     },
     {
       "Identity": "/workspaces/codespaces-blank/DotNetProject/wwwroot/js/Product.js",

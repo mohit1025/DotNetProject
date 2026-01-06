@@ -1,8 +1,83 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using Web.Models
+@model IEnumerable<Products>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row pb-3">
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-sm-6 mb-4">
+            <div class="card border-0 p-3 shadow border-top border-5 rounded h-100">
+
+                @* ---------- PRODUCT IMAGE ---------- *@
+                @{
+                    string imgSrc;
+
+                    if (!string.IsNullOrWhiteSpace(product.ImageUrl))
+                    {
+                        if (product.ImageUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                            product.ImageUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                        {
+                            imgSrc = product.ImageUrl;
+                        }
+                        else if (product.ImageUrl.StartsWith("~/"))
+                        {
+                            imgSrc = Url.Content(product.ImageUrl);
+                        }
+                        else if (product.ImageUrl.StartsWith("/"))
+                        {
+                            imgSrc = product.ImageUrl;
+                        }
+                        else
+                        {
+                            imgSrc = Url.Content("~/" + product.ImageUrl.TrimStart('~', '/'));
+                        }
+                    }
+                    else
+                    {
+                        imgSrc = "https://placehold.co/500x600/png?text=No+Image";
+                    }
+                }
+
+                <img src="@imgSrc"
+                     class="card-img-top rounded"
+                     alt="@product.Title"
+                     loading="lazy"
+                     style="height:260px; object-fit:cover;" />
+
+                @* ---------- CARD BODY ---------- *@
+                <div class="card-body pb-0">
+                    <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">
+                        @product.Title
+                    </p>
+
+                    <p class="card-title text-warning text-center">
+                        by <b>@product.Author</b>
+                    </p>
+
+                    <p class="text-dark text-opacity-75 text-center mb-0">
+                        List Price:
+                        <span class="text-decoration-line-through">
+                            @product.ListPrice.ToString("c")
+                        </span>
+                    </p>
+
+                    <p class="text-dark text-opacity-75 text-center">
+                        As low as:
+                        <span>
+                            @product.Price100.ToString("c")
+                        </span>
+                    </p>
+                </div>
+
+                @* ---------- BUTTON ---------- *@
+                <div class="mt-auto">
+                    <a asp-action="Details"
+                       asp-route-id="@product.Id"
+                       class="btn btn-primary bg-gradient border-0 form-control">
+                        Details
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    }
 </div>

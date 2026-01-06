@@ -1,0 +1,12 @@
+/workspaces/codespaces-blank/Web.Models/bin/Debug/net10.0/Web.Models.deps.json
+/workspaces/codespaces-blank/Web.Models/bin/Debug/net10.0/Web.Models.dll
+/workspaces/codespaces-blank/Web.Models/bin/Debug/net10.0/Web.Models.pdb
+/workspaces/codespaces-blank/Web.Models/obj/Debug/net10.0/Web.Models.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/codespaces-blank/Web.Models/obj/Debug/net10.0/Web.Models.AssemblyInfoInputs.cache
+/workspaces/codespaces-blank/Web.Models/obj/Debug/net10.0/Web.Models.AssemblyInfo.cs
+/workspaces/codespaces-blank/Web.Models/obj/Debug/net10.0/Web.Models.csproj.CoreCompileInputs.cache
+/workspaces/codespaces-blank/Web.Models/obj/Debug/net10.0/Web.Models.sourcelink.json
+/workspaces/codespaces-blank/Web.Models/obj/Debug/net10.0/Web.Models.dll
+/workspaces/codespaces-blank/Web.Models/obj/Debug/net10.0/refint/Web.Models.dll
+/workspaces/codespaces-blank/Web.Models/obj/Debug/net10.0/Web.Models.pdb
+/workspaces/codespaces-blank/Web.Models/obj/Debug/net10.0/ref/Web.Models.dll
