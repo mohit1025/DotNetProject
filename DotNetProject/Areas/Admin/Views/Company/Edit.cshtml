@@ -1,0 +1,61 @@
+﻿@using Web.Models.Models
+@model Company
+
+<form method="post">
+    <input asp-for="Id" hidden />
+    <div class="border p-4 mt-3">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edit Company</h2>
+            <hr />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" type="text" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="StreetAddress"></label>
+            <input asp-for="StreetAddress" type="text" class="form-control" />
+            <span asp-validation-for="StreetAddress" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="City"></label>
+            <input asp-for="City" type="text" class="form-control" />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="State"></label>
+            <input asp-for="State" type="text" class="form-control" />
+            <span asp-validation-for="State" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PostalCode"></label>
+            <input asp-for="PostalCode" type="text" class="form-control" />
+            <span asp-validation-for="PostalCode" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" type="text" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <button type="submit" class="btn btn-primary form-control">Update</button>
+            </div>
+            <div class="col-6">
+                <a asp-controller="Company" asp-action="Index" class="btn btn-outline-dark form-control">Back To List</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

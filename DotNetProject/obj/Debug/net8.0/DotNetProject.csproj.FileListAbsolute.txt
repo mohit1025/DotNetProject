@@ -284,11 +284,6 @@
 /workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/DotNetProject.sourcelink.json
 /workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets.build.json
 /workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets.development.json
-/workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets/msbuild.DotNetProject.Microsoft.AspNetCore.StaticWebAssets.props
-/workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets/msbuild.build.DotNetProject.props
-/workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.DotNetProject.props
-/workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.DotNetProject.props
-/workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets.pack.json
 /workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
 /workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/scopedcss/bundle/DotNetProject.styles.css
 /workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/scopedcss/projectbundle/DotNetProject.bundle.scp.css
@@ -298,3 +293,8 @@
 /workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/DotNetProject.pdb
 /workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/DotNetProject.genruntimeconfig.cache
 /workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/ref/DotNetProject.dll
+/workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets/msbuild.DotNetProject.Microsoft.AspNetCore.StaticWebAssets.props
+/workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets/msbuild.build.DotNetProject.props
+/workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.DotNetProject.props
+/workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.DotNetProject.props
+/workspaces/codespaces-blank/DotNetProject/obj/Debug/net8.0/staticwebassets.pack.json
