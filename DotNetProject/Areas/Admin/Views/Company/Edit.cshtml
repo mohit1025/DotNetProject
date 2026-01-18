@@ -2,9 +2,10 @@
 @model Company
 
 <form method="post">
+    <input asp-for="Id" hidden />
     <div class="border p-4 mt-3">
         <div class="row pb-2">
-            <h2 class="text-primary">Create Company</h2>
+            <h2 class="text-primary">Edit Company</h2>
             <hr />
         </div>
 
@@ -46,7 +47,7 @@
 
         <div class="row">
             <div class="col-6">
-                <button type="submit" class="btn btn-primary form-control">Create</button>
+                <button type="submit" class="btn btn-primary form-control">Update</button>
             </div>
             <div class="col-6">
                 <a asp-controller="Company" asp-action="Index" class="btn btn-outline-dark form-control">Back To List</a>

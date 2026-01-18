@@ -22,6 +22,8 @@ using Microsoft.Extensions.Logging;
 using Web.Utilities;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Web.DataAccess.Repository;
+using System.ComponentModel;
 
 namespace DotNetProject.Areas.Identity.Pages.Account
 {
@@ -34,6 +36,7 @@ namespace DotNetProject.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -41,7 +44,8 @@ namespace DotNetProject.Areas.Identity.Pages.Account
             RoleManager<IdentityRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -50,6 +54,7 @@ namespace DotNetProject.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -110,13 +115,17 @@ namespace DotNetProject.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             public string? Role { get; set; }
+            [DisplayName("Street Address")]
             public string? StreetAddress { get; set; }
             public string? City { get; set; }
             public string? State { get; set; }
-            
+            [DisplayName("Company Name")]
+            public int? CompanyId { get; set; }
+            [DisplayName("Postal Code")]
             public string? PostalCode { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
+            public IEnumerable<SelectListItem> CompanyList { get; set; }
         }
 
 
@@ -135,8 +144,16 @@ namespace DotNetProject.Areas.Identity.Pages.Account
                 {
                     Text = n,
                     Value = n
+                }),
+
+                CompanyList = _unitOfWork.Company.GetAll().Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
                 })
             };
+           
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -156,7 +173,13 @@ namespace DotNetProject.Areas.Identity.Pages.Account
                 user.City = Input.City;
                 user.State = Input.State;
                 user.PostalCode = Input.PostalCode;
+
+                    if (Input.Role == SD.Role_User_Comp)
+                    {
+                        user.CompanyId = Input.CompanyId;
+                    }
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
 
                 if (result.Succeeded)
                 {
