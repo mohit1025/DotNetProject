@@ -1,6 +1,6 @@
 using System;
 using System.Linq.Expressions;
-using DotNetProject.Data;
+using Web.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Web.DataAccess.Repository.IRepository;
 
@@ -14,7 +14,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
         _db = db;
         this.dbSet = _db.Set<T>();
-        _db.Products.Include(u => u.Category);
+        // ...existing code...
     }
     public void Add(T entity)
     {

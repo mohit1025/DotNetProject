@@ -1,5 +1,5 @@
 using System;
-using DotNetProject.Data;
+using Web.DataAccess.Data;
 using Web.Models;
 using Web.DataAccess.Repository.IRepository;
 

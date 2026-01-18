@@ -1,17 +1,18 @@
 using System.Data.Common;
 using System.IO;
-using DotNetProject.Data;
-using DotNetProject.Models;
-using Microsoft.AspNetCore.Mvc;
-using Web.DataAccess.Repository.IRepository;
-using Web.DataAccess.Repository;
 using Web.Models;
+using Microsoft.AspNetCore.Mvc;
+using Web.DataAccess.Repository;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Web.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Web.Utilities;
 
 namespace DotNetProject.Controllers
 {
+    
     [Area("Admin")]
+    [Authorize (Roles = SD.Role_Admin)]
     public class ProductsController : Controller
     {
         private readonly IWebHostEnvironment _hostEnvironment;

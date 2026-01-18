@@ -1,8 +1,7 @@
-using System;
-using System.Linq.Expressions;
-using DotNetProject.Data;
-using DotNetProject.Models;
+using Web.DataAccess.Data;
+using Web.DataAccess.Repository;
 using Web.DataAccess.Repository.IRepository;
+using Web.Models;
 
 namespace Web.DataAccess.Repository;
 

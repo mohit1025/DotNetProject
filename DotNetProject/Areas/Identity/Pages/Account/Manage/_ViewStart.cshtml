@@ -1,0 +1,7 @@
+﻿@{
+    Layout = "_ManageLayout.cshtml";
+
+    // Auto-set ActivePage for the current page
+    var pageName = System.IO.Path.GetFileNameWithoutExtension(ViewContext.View.Path);
+    ViewData["ActivePage"] = pageName;
+}

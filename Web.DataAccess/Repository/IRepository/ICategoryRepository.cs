@@ -1,5 +1,6 @@
 using System;
 using DotNetProject.Models;
+using Web.Models;
 
 namespace Web.DataAccess.Repository.IRepository;
 

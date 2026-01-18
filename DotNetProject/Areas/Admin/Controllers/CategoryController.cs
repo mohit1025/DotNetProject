@@ -1,13 +1,16 @@
 using System.Data.Common;
-using DotNetProject.Data;
+using Web.Models;
 using DotNetProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Web.DataAccess.Repository.IRepository;
 using Web.DataAccess.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Web.Utilities;
 
 namespace DotNetProject.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
 

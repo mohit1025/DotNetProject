@@ -1,7 +1,6 @@
 using System;
 using Web.DataAccess.Repository.IRepository;
-using DotNetProject.Data;
-
+using Web.DataAccess.Data;
 namespace Web.DataAccess.Repository;
 
 public class UnitOfWork : IUnitOfWork

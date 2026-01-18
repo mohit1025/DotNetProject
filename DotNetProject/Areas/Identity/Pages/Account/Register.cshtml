@@ -1,0 +1,96 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4">
+
+                        <h2 class="text-center fw-bold mb-4">Create Account</h2>
+
+                        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                            <!-- Name -->
+                            <div class="mb-3">
+                                <label asp-for="Input.Name" class="form-label"></label>
+                                <input asp-for="Input.Name" class="form-control" />
+                                <span asp-validation-for="Input.Name" class="text-danger"></span>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label asp-for="Input.Email" class="form-label"></label>
+                                <input asp-for="Input.Email" class="form-control" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label asp-for="Input.Password" class="form-label"></label>
+                                <input asp-for="Input.Password" class="form-control" />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div class="mb-3">
+                                <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+
+                            <hr />
+
+                            <!-- Address -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Input.City" class="form-label"></label>
+                                    <input asp-for="Input.City" class="form-control" />
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Input.State" class="form-label"></label>
+                                    <input asp-for="Input.State" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Input.StreetAddress" class="form-label"></label>
+                                <input asp-for="Input.StreetAddress" class="form-control" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Input.PostalCode" class="form-label"></label>
+                                <input asp-for="Input.PostalCode" class="form-control" />
+                            </div>
+
+                            <!-- Role -->
+                            <div class="mb-4">
+                                <label asp-for="Input.Role" class="form-label"></label>
+                                <select asp-for="Input.Role" asp-items="Model.Input.RoleList" class="form-select">
+                                    <option value="">-- Select Role --</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-2">
+                                Register
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
