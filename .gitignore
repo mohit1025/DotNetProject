@@ -1,12 +1,21 @@
+# Build folders
 bin/
 obj/
-**/bin/
-**/obj/
-bin/
-obj/
-**/bin/
-**/obj/
-bin/
-obj/
-**/bin/
-**/obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Rider/Resharper
+.idea/
+*.DotSettings.user
+
+# Logs / temporary files
+*.log
+*.tmp
+*.cache
+*.DS_Store
+
+# EF Migrations (optional, if you want to ignore migration snapshots)
+# Migrations/
