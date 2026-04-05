@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Areas/Admin/Views/Company/" />
+    <Folder Include="Areas/Customers/Views/Cart/" />
     <Folder Include="Areas/Identity/Data/" />
     <Folder Include="Controllers/" />
     <Folder Include="wwwroot/Images/" />
