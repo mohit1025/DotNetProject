@@ -16,6 +16,7 @@
     <!-- Identity UI for Razor -->
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.*" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="Stripe.net" Version="50.0.0" />
   </ItemGroup>
 
   <ItemGroup>

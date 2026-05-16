@@ -12,6 +12,8 @@ public class UnitOfWork : IUnitOfWork
     public ICompanyRepository Company { get; private set; }
     public IShoppingCartRepository shoppingCart {get; private set;}
     public IApplicationUserRepository ApplicationUser {get; private set;}
+    public IOrderDetailsRepository OrderDetails {get; private set;}
+    public IOrderHeaderRepository OrderHeader {get; private set;}
 
      private readonly ApplicationDbContext _db;
     public UnitOfWork(ApplicationDbContext db) 
@@ -22,6 +24,9 @@ public class UnitOfWork : IUnitOfWork
         Product = new ProductRepository(_db);
         Company = new CompanyRepository(_db);
         shoppingCart = new ShoppingCartRepository(_db);
+        OrderDetails = new OrderDetailsRepository(_db);
+        OrderHeader = new OrderHeaderRepository(_db);
+
     }
 
     public void SaveChanges()

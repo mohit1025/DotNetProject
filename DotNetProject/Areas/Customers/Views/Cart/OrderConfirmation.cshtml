@@ -1,0 +1,58 @@
+﻿@model int
+
+<div class="container">
+    <div class="card shadow border-0 mt-4">
+
+        <!-- Header -->
+        <div class="card-header bg-secondary bg-gradient text-light py-4">
+            <div class="row px-4 align-items-center">
+
+                <div class="col-6">
+                    <h3 class="text-white fw-bold mb-0">
+                        Order Confirmation - Order ID: @Model
+                    </h3>
+                </div>
+
+                <div class="col-6 text-end">
+                    <a asp-action="Index"
+                       class="btn btn-outline-light btn-sm">
+                        Back to Cart
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body py-5">
+
+            <div class="text-center">
+
+                <h1 class="text-primary fw-bold">
+                    Thank You for Your Order!
+                </h1>
+
+                <p class="fs-4 mt-4 text-muted">
+                    Your order has been placed successfully.
+                </p>
+
+                <p class="fs-3 fw-semibold">
+                    Order ID:
+                    <span class="text-dark">@Model</span>
+                </p>
+
+                <div class="mt-5">
+                    <a asp-area="Customer"
+                       asp-controller="Home"
+                       asp-action="Index"
+                       class="btn btn-primary btn-lg px-4">
+                        Continue Shopping
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

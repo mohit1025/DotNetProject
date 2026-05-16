@@ -18,6 +18,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.22" />
     <!-- Identity for EF Core -->
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.22" />
+    <PackageReference Include="Stripe.net" Version="50.0.0" />
   </ItemGroup>
 
   <ItemGroup>
