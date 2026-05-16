@@ -122,41 +122,61 @@ namespace DotNetProject.Areas.Customers.Controllers
             }
             return View(ShoppingCartVM);
         }
-
         [HttpPost]
         [ActionName("Summary")]
         public IActionResult SummaryPost()
         {
-            var ClaimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = ClaimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            ShoppingCartVM.ShoppingCartList = _db.shoppingCart.GetAll(u => u.ApplicationUserId == userId,
-                includeProperties: "Product");
+            // Get shopping cart items
+            ShoppingCartVM.ShoppingCartList = _db.shoppingCart.GetAll(
+                u => u.ApplicationUserId == userId,
+                includeProperties: "Product"
+            );
 
+            // Create order header
             ShoppingCartVM.OrdersHeader.OrderDate = DateTime.Now;
             ShoppingCartVM.OrdersHeader.ApplicationUserId = userId;
+
+            // Calculate total
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
                 cart.Price = GetPriceBasedOnQuantity(cart);
-                ShoppingCartVM.OrdersHeader.OrderTotal += cart.Price * cart.Count;
-            }
-            ShoppingCartVM.OrdersHeader.ApplicationUser = _db.ApplicationUser.Get(u => u.Id == userId);
-            if (ShoppingCartVM.OrdersHeader.ApplicationUser.CompanyId.GetValueOrDefault() == 0)
-            {
-                // it is a regular customer account
-                ShoppingCartVM.OrdersHeader.OrderStatus = SD.StatusPending;
-                ShoppingCartVM.OrdersHeader.PaymentStatus = SD.PaymentStatusPending;
+                ShoppingCartVM.OrdersHeader.OrderTotal +=
+                    (cart.Price * cart.Count);
             }
 
+            // Get user
+            ShoppingCartVM.OrdersHeader.ApplicationUser =
+                _db.ApplicationUser.Get(u => u.Id == userId);
+
+            // Company user or regular user
+            if (ShoppingCartVM.OrdersHeader.ApplicationUser
+                .CompanyId.GetValueOrDefault() == 0)
+            {
+                // Regular customer
+                ShoppingCartVM.OrdersHeader.OrderStatus =
+                    SD.StatusPending;
+
+                ShoppingCartVM.OrdersHeader.PaymentStatus =
+                    SD.PaymentStatusPending;
+            }
             else
             {
-                // it is a company account
-                ShoppingCartVM.OrdersHeader.OrderStatus = SD.StatusApproved;
-                ShoppingCartVM.OrdersHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
+                // Company customer
+                ShoppingCartVM.OrdersHeader.OrderStatus =
+                    SD.StatusApproved;
+
+                ShoppingCartVM.OrdersHeader.PaymentStatus =
+                    SD.PaymentStatusDelayedPayment;
             }
 
+            // Save OrderHeader
             _db.OrderHeader.Add(ShoppingCartVM.OrdersHeader);
             _db.SaveChanges();
+
+            // Save OrderDetails
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
                 OrderDetails orderDetails = new()
@@ -166,84 +186,98 @@ namespace DotNetProject.Areas.Customers.Controllers
                     Price = cart.Price,
                     Count = cart.Count
                 };
+
                 _db.OrderDetails.Add(orderDetails);
             }
+
             _db.SaveChanges();
 
-            if (ShoppingCartVM.OrdersHeader.ApplicationUser.CompanyId.GetValueOrDefault() == 0)
+            // Stripe payment for regular users
+            if (ShoppingCartVM.OrdersHeader.ApplicationUser
+                .CompanyId.GetValueOrDefault() == 0)
             {
-                // it is a regular customer account
-                // need to make payment stipe logic here
+                // IMPORTANT:
+                // Replace this with your ACTUAL forwarded GitHub Codespace URL
+                var domain = "https://congenial-space-goggles-649p69x4qjph55rw-5023.app.github.dev/";
 
-                var domain = "https://congenial-space-goggles-649p69x4qjph55rw-5023.app.github.dev/"; // your application URL
-
-                var options = new Stripe.Checkout.SessionCreateOptions
+                var options = new SessionCreateOptions
                 {
-                    SuccessUrl = domain + $"customers/cart/OrderConfirmation?id={ShoppingCartVM.OrdersHeader.Id}",
+                    SuccessUrl = domain +
+                        $"customers/cart/OrderConfirmation?id={ShoppingCartVM.OrdersHeader.Id}",
+
                     CancelUrl = domain + "customers/cart/index",
+
                     Mode = "payment",
-                    LineItems = new List<Stripe.Checkout.SessionLineItemOptions>()
+
+                    LineItems = new List<SessionLineItemOptions>()
                 };
 
+                // Add cart items to Stripe session
                 foreach (var cart in ShoppingCartVM.ShoppingCartList)
                 {
-                    var sessionLineItem = new Stripe.Checkout.SessionLineItemOptions
-                    {
-                        PriceData = new Stripe.Checkout.SessionLineItemPriceDataOptions
+                    var sessionLineItem =
+                        new SessionLineItemOptions
                         {
-                            UnitAmount = (long)(cart.Price * 100), // cents
-                            Currency = "usd",
-                            ProductData = new Stripe.Checkout.SessionLineItemPriceDataProductDataOptions
-                            {
-                                Name = cart.Product.Title
-                            }
-                        },
-                        Quantity = cart.Count
-                    };
+                            PriceData =
+                                new SessionLineItemPriceDataOptions
+                                {
+                                    UnitAmount =
+                                        (long)(cart.Price * 100),
+
+                                    Currency = "usd",
+
+                                    ProductData =
+                                        new SessionLineItemPriceDataProductDataOptions
+                                        {
+                                            Name = cart.Product.Title
+                                        }
+                                },
+
+                            Quantity = cart.Count
+                        };
 
                     options.LineItems.Add(sessionLineItem);
                 }
 
-                var service = new Stripe.Checkout.SessionService();
-                Stripe.Checkout.Session session = service.Create(options);
+                try
+                {
+                    var service = new SessionService();
 
-                _db.OrderHeader.UpdateStripePaymentId(
-                    ShoppingCartVM.OrdersHeader.Id,
-                    session.Id,
-                    session.PaymentIntentId
-                );
-                _db.SaveChanges();
-                Response.Headers.Add("Location", session.Url);
-                return new StatusCodeResult(303);
+                    Session session = service.Create(options);
+
+                    Console.WriteLine("SESSION ID: " + session.Id);
+                    Console.WriteLine("SESSION URL: " + session.Url);
+
+                    // Save Stripe session details
+                    _db.OrderHeader.UpdateStripePaymentId(
+                        ShoppingCartVM.OrdersHeader.Id,
+                        session.Id,
+                        session.PaymentIntentId
+                    );
+
+                    _db.SaveChanges();
+
+                    // Redirect user to Stripe Checkout
+                    return Redirect(session.Url);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+
+                    return Content(ex.ToString());
+                }
             }
 
-
-            return RedirectToAction(nameof(OrderConfirmation), new { id = ShoppingCartVM.OrdersHeader.Id });
+            // Company users skip Stripe
+            return RedirectToAction(
+                nameof(OrderConfirmation),
+                new { id = ShoppingCartVM.OrdersHeader.Id }
+            );
         }
 
         public IActionResult OrderConfirmation(int id)
         {
-            OrderHeader orderHeader = _db.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
-            if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
-            {
-                //order by customer
-
-                var service = new Stripe.Checkout.SessionService();
-                Session session = service.Get(orderHeader.SessionId);
-
-                if (session.PaymentStatus.ToLower() == "paid")
-                {
-                    _db.OrderHeader.UpdateStripePaymentId(id, session.Id, session.PaymentIntentId);
-                    _db.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
-                    _db.SaveChanges();
-                }
-            }
-
-            List<ShoppingCart> shoppingCarts = _db.shoppingCart.GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
-            _db.shoppingCart.DeleteRange(shoppingCarts);
-            _db.SaveChanges();
             return View(id);
         }
-
     }
 }
