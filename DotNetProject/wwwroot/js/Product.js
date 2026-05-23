@@ -89,9 +89,8 @@ function deleteProduct(url) {
         error: function (xhr, status, error) {
           console.error("Delete error:", xhr.responseText);
           toastr.error("Error deleting product");
-        }
+        },
       });
     }
   });
 }
-

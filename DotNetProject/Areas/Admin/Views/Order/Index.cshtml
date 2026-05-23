@@ -1,0 +1,174 @@
+<style>
+    /* Page Header */
+    .page-header {
+        background: linear-gradient(135deg, #4f46e5, #3b82f6);
+        border-radius: 16px;
+        color: #fff;
+        padding: 20px 24px;
+    }
+
+    /* Container Card */
+    .content-wrapper {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+    }
+
+    /* Table Styling */
+    #tblData thead th {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        color: #6b7280;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    #tblData tbody tr:hover {
+        background-color: #f9fafb;
+    }
+
+    #tblData td {
+        vertical-align: middle;
+    }
+
+    /* Buttons */
+    .btn-soft-primary {
+        background-color: #eef2ff;
+        color: #4338ca;
+        border: none;
+    }
+
+    .btn-soft-primary:hover {
+        background-color: #e0e7ff;
+        color: #3730a3;
+    }
+
+    .btn-soft-danger {
+        background-color: #fee2e2;
+        color: #b91c1c;
+        border: none;
+    }
+
+    .btn-soft-danger:hover {
+        background-color: #fecaca;
+        color: #991b1b;
+    }
+
+    /* Filter Buttons */
+    .filter-btn {
+        border-radius: 10px;
+        padding: 8px 18px;
+        font-weight: 500;
+        border: none;
+        transition: 0.2s ease;
+    }
+
+    .filter-btn.active {
+        background: #4f46e5;
+        color: white;
+    }
+
+    .filter-btn:not(.active) {
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+    .filter-btn:hover {
+        transform: translateY(-1px);
+    }
+</style>
+
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="mb-1">Order List</h3>
+            <small class="opacity-75">Manage all available Orders</small>
+        </div>
+    </div>
+    <!-- Filters -->
+    <div class="d-flex gap-2 mb-4 flex-wrap">
+
+        <button class="filter-btn active" data-status="">
+            All
+        </button>
+
+        <button class="filter-btn" data-status="Pending">
+            Pending
+        </button>
+
+        <button class="filter-btn" data-status="Approved">
+            Approved
+        </button>
+
+        <button class="filter-btn" data-status="Processing">
+            Processing
+        </button>
+
+        <button class="filter-btn" data-status="Shipped">
+            Shipped
+        </button>
+
+        <button class="filter-btn" data-status="Cancelled">
+            Cancelled
+        </button>
+
+       
+    </div>
+    <!-- Table -->
+    <div class="content-wrapper p-3">
+
+        <table id="tblData" class="table table-borderless align-middle w-100">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Order Status</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script src="~/js/Order.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+        $(".filter-btn").click(function () {
+
+        $(".filter-btn").removeClass("active");
+
+        $(this).addClass("active");
+
+        var status = $(this).data("status");
+
+        if (status === "") {
+
+        dataTable.column(4).search("").draw();
+
+        } else {
+
+        dataTable.column(4).search(status).draw();
+        }
+
+        });
+
+        });
+
+    </script>
+}

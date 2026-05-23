@@ -122,6 +122,7 @@ namespace DotNetProject.Areas.Customers.Controllers
             }
             return View(ShoppingCartVM);
         }
+
         [HttpPost]
         [ActionName("Summary")]
         public IActionResult SummaryPost()
@@ -135,6 +136,10 @@ namespace DotNetProject.Areas.Customers.Controllers
                 includeProperties: "Product"
             );
 
+            // Get logged in user
+            var applicationUser =
+                _db.ApplicationUser.Get(u => u.Id == userId);
+
             // Create order header
             ShoppingCartVM.OrdersHeader.OrderDate = DateTime.Now;
             ShoppingCartVM.OrdersHeader.ApplicationUserId = userId;
@@ -143,17 +148,13 @@ namespace DotNetProject.Areas.Customers.Controllers
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
                 cart.Price = GetPriceBasedOnQuantity(cart);
+
                 ShoppingCartVM.OrdersHeader.OrderTotal +=
-                    (cart.Price * cart.Count);
+                    cart.Price * cart.Count;
             }
 
-            // Get user
-            ShoppingCartVM.OrdersHeader.ApplicationUser =
-                _db.ApplicationUser.Get(u => u.Id == userId);
-
             // Company user or regular user
-            if (ShoppingCartVM.OrdersHeader.ApplicationUser
-                .CompanyId.GetValueOrDefault() == 0)
+            if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
                 // Regular customer
                 ShoppingCartVM.OrdersHeader.OrderStatus =
@@ -166,7 +167,7 @@ namespace DotNetProject.Areas.Customers.Controllers
             {
                 // Company customer
                 ShoppingCartVM.OrdersHeader.OrderStatus =
-                    SD.StatusApproved;
+                    SD.StatusInProcess;
 
                 ShoppingCartVM.OrdersHeader.PaymentStatus =
                     SD.PaymentStatusDelayedPayment;
@@ -192,13 +193,14 @@ namespace DotNetProject.Areas.Customers.Controllers
 
             _db.SaveChanges();
 
+
+
             // Stripe payment for regular users
-            if (ShoppingCartVM.OrdersHeader.ApplicationUser
-                .CompanyId.GetValueOrDefault() == 0)
+            if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
-                // IMPORTANT:
-                // Replace this with your ACTUAL forwarded GitHub Codespace URL
-                var domain = "https://congenial-space-goggles-649p69x4qjph55rw-5023.app.github.dev/";
+                // Replace with your actual domain
+                var domain =
+                    "https://congenial-space-goggles-649p69x4qjph55rw-5023.app.github.dev/";
 
                 var options = new SessionCreateOptions
                 {
@@ -257,6 +259,16 @@ namespace DotNetProject.Areas.Customers.Controllers
 
                     _db.SaveChanges();
 
+                    // Clear shopping cart
+                    List<ShoppingCart> shoppingCarts2 =
+                        _db.shoppingCart.GetAll(
+                            u => u.ApplicationUserId == userId
+                        ).ToList();
+
+                    _db.shoppingCart.RemoveRange(shoppingCarts2);
+
+                    _db.SaveChanges();
+
                     // Redirect user to Stripe Checkout
                     return Redirect(session.Url);
                 }
@@ -268,6 +280,14 @@ namespace DotNetProject.Areas.Customers.Controllers
                 }
             }
 
+            List<ShoppingCart> shoppingCarts =
+                        _db.shoppingCart.GetAll(
+                            u => u.ApplicationUserId == userId
+                        ).ToList();
+
+            _db.shoppingCart.RemoveRange(shoppingCarts);
+
+            _db.SaveChanges();
             // Company users skip Stripe
             return RedirectToAction(
                 nameof(OrderConfirmation),
@@ -277,6 +297,41 @@ namespace DotNetProject.Areas.Customers.Controllers
 
         public IActionResult OrderConfirmation(int id)
         {
+            OrderHeader orderHeader = _db.OrderHeader.Get(
+        u => u.Id == id
+    );
+
+            // For regular customers
+            if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
+            {
+                var service = new SessionService();
+
+                Session session = service.Get(orderHeader.SessionId);
+
+                // Payment successful
+                if (session.PaymentStatus.ToLower() == "paid")
+                {
+                    _db.OrderHeader.UpdateStripePaymentId(
+                        id,
+                        session.Id,
+                        session.PaymentIntentId
+                    );
+
+                    _db.OrderHeader.UpdateStatus(
+                        id,
+                        SD.StatusApproved,
+                        SD.PaymentStatusApproved
+                    );
+
+                    _db.SaveChanges();
+                }
+            }
+            List<ShoppingCart> shoppingCarts =
+                        _db.shoppingCart.GetAll(
+                            u => u.ApplicationUserId == orderHeader.ApplicationUserId
+                        ).ToList();
+
+            _db.shoppingCart.RemoveRange(shoppingCarts);
             return View(id);
         }
     }

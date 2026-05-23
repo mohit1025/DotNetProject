@@ -33,13 +33,13 @@ public class Repository<T> : IRepository<T> where T : class
         {
             foreach (var prop in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                query = query.Include(prop);
+                query = query.Include(prop.Trim());
             }
         }
 
         query = query.Where(filter);
 
-        return query.FirstOrDefault();
+        return query.AsNoTracking().FirstOrDefault();
     }
 
     public IEnumerable<T> GetAll(Expression<Func<T, bool>> ?filter,string? includeProperties = null)

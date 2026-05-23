@@ -1,0 +1,478 @@
+@using System.Linq
+@using Web.Models.Models
+@using Web.Models.ViewModels
+@using Web.Utilities
+
+@model OrderVM
+
+@if (Model != null && Model.OrderHeader != null)
+{
+    <form method="post">
+
+        <br />
+
+        <input type="hidden" name="OrderHeader.Id" value="@Model.OrderHeader.Id" />
+
+        <div class="container">
+
+            <div class="card">
+
+                <!-- HEADER -->
+                <div class="card-header bg-dark text-light ml-0">
+
+                    <div class="container row">
+
+                        <div class="col-12 d-none d-md-block col-md-6 pb-1">
+                            <i class="fas fa-shopping-cart"></i>
+                            &nbsp; Order Summary
+                        </div>
+
+                        <div class="col-12 col-md-4 offset-md-2 text-right">
+
+                            <a asp-action="Index" class="btn btn-outline-info form-control btn-sm">
+                                Back to Orders
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body">
+
+                    <div class="container rounded p-2">
+
+                        <div class="row">
+
+                            <!-- LEFT SIDE -->
+                            <div class="col-12 col-lg-6 pb-4">
+
+                                <div class="row">
+
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-primary">
+                                            PickUp Details:
+                                        </span>
+                                    </h4>
+
+                                </div>
+
+                                <!-- NAME -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        Name
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <input type="text" name="OrderHeader.Name" value="@Model.OrderHeader.Name"
+                                                   class="form-control" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" value="@Model.OrderHeader.Name" readonly class="form-control" />
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                                <!-- PHONE -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        Phone
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <input type="text" name="OrderHeader.PhoneNumber"
+                                                   value="@Model.OrderHeader.PhoneNumber" class="form-control" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" value="@Model.OrderHeader.PhoneNumber" readonly
+                                                   class="form-control" />
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                                <!-- ADDRESS -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        Address
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <input type="text" name="OrderHeader.StreetAddress"
+                                                   value="@Model.OrderHeader.StreetAddress" class="form-control" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" value="@Model.OrderHeader.StreetAddress" readonly
+                                                   class="form-control" />
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                                <!-- CITY -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        City
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <input type="text" name="OrderHeader.City" value="@Model.OrderHeader.City"
+                                                   class="form-control" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" value="@Model.OrderHeader.City" readonly class="form-control" />
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                                <!-- STATE -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        State
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <input type="text" name="OrderHeader.State" value="@Model.OrderHeader.State"
+                                                   class="form-control" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" value="@Model.OrderHeader.State" readonly class="form-control" />
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                                <!-- ZIP -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        Zip Code
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <input type="text" name="OrderHeader.PostalCode"
+                                                   value="@Model.OrderHeader.PostalCode" class="form-control" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" value="@Model.OrderHeader.PostalCode" readonly
+                                                   class="form-control" />
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                                <!-- EMAIL -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        Email
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        <input type="text"
+                                               value="@(Model.OrderHeader.ApplicationUser?.Email ?? "User Not Found")" readonly
+                                               class="form-control" />
+
+                                    </div>
+
+                                </div>
+
+                                <!-- ORDER DATE -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        Order Date
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        <input type="text" value="@Model.OrderHeader.OrderDate.ToShortDateString()" readonly
+                                               class="form-control" />
+
+                                    </div>
+
+                                </div>
+
+                                <!-- CARRIER -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        Carrier
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <input type="text" name="OrderHeader.Carrier" value="@Model.OrderHeader.Carrier"
+                                                   class="form-control" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" value="@Model.OrderHeader.Carrier" readonly
+                                                   class="form-control" />
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                                <!-- TRACKING -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        Tracking
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <input type="text" name="OrderHeader.TrackingNumber"
+                                                   value="@Model.OrderHeader.TrackingNumber" class="form-control" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" value="@Model.OrderHeader.TrackingNumber" readonly
+                                                   class="form-control" />
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                                <!-- PAYMENT STATUS -->
+                                <div class="row my-1">
+
+                                    <div class="col-3">
+                                        Payment Status
+                                    </div>
+
+                                    <div class="col-9">
+
+                                        <input type="text" value="@Model.OrderHeader.PaymentStatus" readonly
+                                               class="form-control" />
+
+                                    </div>
+
+                                </div>
+
+                                <!-- UPDATE BUTTON -->
+                                @if (User.IsInRole("Admin") && Model.OrderHeader.OrderStatus != SD.StatusShipped &&
+                                     Model.OrderHeader.OrderStatus != SD.StatusCancelled )
+                                     
+                                {
+                                    <button type="submit" asp-action="UpdateOrderDetails" asp-route-id="@Model.OrderHeader.Id"
+                                            class="btn btn-warning form-control my-1" value="Update Order Details">
+                                        Update Order Details
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" disabled class="btn btn-secondary form-control my-1">
+                                        No Access
+                                    </button>
+                                }
+
+                            </div>
+
+                            <!-- RIGHT SIDE -->
+                            <div class="col-12 col-lg-5 offset-lg-1">
+
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+
+                                    <span class="text-primary">
+                                        Order Summary
+                                    </span>
+
+                                </h4>
+
+                                <label class="btn btn-outline-primary form-control my-2">
+
+                                    Order Status -
+                                    @Model.OrderHeader.OrderStatus
+
+                                </label>
+
+                                <ul class="list-group mb-3">
+
+                                    @foreach (var detail in Model.OrderDetail ?? Enumerable.Empty<OrderDetails>())
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between p-2">
+
+                                            <div class="row container">
+
+                                                <div class="col-8">
+
+                                                    <h6 class="my-0 text-primary">
+                                                        @(detail.Product?.Title ?? "Product Not Found")
+                                                    </h6>
+
+                                                    <small class="text-muted">
+                                                        Price : @detail.Price
+                                                    </small>
+
+                                                    <br />
+
+                                                    <small class="text-muted">
+                                                        Quantity : @detail.Count
+                                                    </small>
+
+                                                </div>
+
+                                                <div class="col-4 text-end">
+
+                                                    <p class="text-success">
+                                                        @(detail.Count * detail.Price)
+                                                    </p>
+
+                                                </div>
+
+                                            </div>
+
+                                        </li>
+                                    }
+
+                                    <!-- TOTAL -->
+                                    <li class="list-group-item bg-primary">
+
+                                        <div class="row container">
+
+                                            <div class="col-6">
+
+                                                <h5 class="text-white">
+                                                    TOTAL
+                                                </h5>
+
+                                            </div>
+
+                                            <div class="col-6 text-end">
+
+                                                <h5 class="text-white">
+                                                    @Model.OrderHeader.OrderTotal
+                                                </h5>
+
+                                            </div>
+
+                                        </div>
+
+                                    </li>
+
+                                </ul>
+
+                                @if (Model.OrderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment && Model.OrderHeader.OrderStatus == SD.StatusShipped)
+                                {
+                                    <button type="submit" class="btn btn-success form-control my-1">
+                                        Pay Now
+                                    </button>
+                                }
+
+                                @if (User.IsInRole(SD.Role_Admin) ||
+                                     User.IsInRole(SD.Role_Employee))
+                                {
+                                    @if (Model.OrderHeader.OrderStatus == SD.StatusApproved)
+                                    {
+                                        <button type="submit" asp-action="StartProcessing"
+                                                class="btn btn-primary form-control my-1">
+                                            Start Processing
+                                        </button>
+                                    }
+
+                                    @if (Model.OrderHeader.OrderStatus == SD.PaymentStatusDelayedPayment || 
+                                         Model.OrderHeader.OrderStatus == SD.StatusInProcess)
+                                    {
+                                        <button type="submit" asp-action="ShipOrder" onclick="return validateInput()"
+                                                class="btn btn-primary form-control my-1">
+                                            Ship Order
+                                        </button>
+                                    }
+
+                                    @if (Model.OrderHeader.OrderStatus != SD.StatusRefunded &&
+                                         Model.OrderHeader.OrderStatus != SD.StatusCancelled &&
+                                         Model.OrderHeader.OrderStatus != SD.StatusShipped)
+                                    {
+                                        <button type="submit" asp-action="CancelOrder" class="btn btn-danger form-control my-1">
+                                            Cancel Order
+                                        </button>
+                                    }
+                                }
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+}
+else
+{
+    <div class="container mt-5">
+
+        <div class="alert alert-danger">
+            Order not found.
+        </div>
+
+    </div>
+    
+}
+
+@section Scripts {
+    <script>
+        function validateInput() {
+            var carrier = document.getElementsByName("OrderHeader.Carrier")[0].value;
+            var trackingNumber = document.getElementsByName("OrderHeader.TrackingNumber")[0].value;
+
+            if (carrier.trim() === "" || trackingNumber.trim() === "") {
+                alert("Please enter both Carrier and Tracking Number before shipping the order.");
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
+}
