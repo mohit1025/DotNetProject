@@ -6,6 +6,7 @@ using Web.Models;
 using Web.Models.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Web.Utilities;
 
 namespace DotNetProject.Controllers;
 
@@ -23,6 +24,13 @@ public class HomeController : Controller
     }
     public IActionResult Index()
     {
+
+        var ClaimsIdentity = (ClaimsIdentity)User.Identity;
+        var Claim = ClaimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+        if (Claim != null)
+        {
+            HttpContext.Session.SetInt32(SD.SessionCart, _db.shoppingCart.GetAll(u => u.ApplicationUserId == Claim.Value).Count());
+        }
         IEnumerable<Products> objProductList = _db.Product.GetAll(includeProperties: "Category");
         return View(objProductList);
     }
@@ -52,13 +60,16 @@ public class HomeController : Controller
         {
             cartFromDb.Count += shoppingCart.Count;
             _db.shoppingCart.Update(cartFromDb);
+            _db.SaveChanges();
         }
         else
         {
             _db.shoppingCart.Add(shoppingCart);
+            _db.SaveChanges();
+            HttpContext.Session.SetInt32(SD.SessionCart, _db.shoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
         }
 
-        _db.SaveChanges();
+       
         return RedirectToAction(nameof(Index));
     }
 

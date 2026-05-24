@@ -8,6 +8,8 @@ using Web.Models.Models;
 using Web.Utilities;
 using Stripe;
 using Stripe.Checkout;
+using Microsoft.EntityFrameworkCore.Update;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
 namespace DotNetProject.Areas.Customers.Controllers
@@ -65,7 +67,7 @@ namespace DotNetProject.Areas.Customers.Controllers
 
         public ActionResult Plus(int cartId)
         {
-            var cart = _db.shoppingCart.Get(u => u.Id == cartId);
+            var cart = _db.shoppingCart.Get(u => u.Id == cartId, tracked: true);
             cart.Count += 1;
             _db.shoppingCart.Update(cart);
             _db.SaveChanges();
@@ -74,10 +76,11 @@ namespace DotNetProject.Areas.Customers.Controllers
 
         public ActionResult Minus(int cartId)
         {
-            var cart = _db.shoppingCart.Get(u => u.Id == cartId);
+            var cart = _db.shoppingCart.Get(u => u.Id == cartId, tracked: true);
             cart.Count -= 1;
             if (cart.Count < 1)
             {
+                HttpContext.Session.SetInt32(SD.SessionCart, _db.shoppingCart.GetAll(u => u.ApplicationUserId == cart.ApplicationUserId).Count() - 1);
                 _db.shoppingCart.Remove(cart);
             }
             else
@@ -91,6 +94,7 @@ namespace DotNetProject.Areas.Customers.Controllers
         public ActionResult Remove(int cartId)
         {
             var cart = _db.shoppingCart.Get(u => u.Id == cartId);
+            HttpContext.Session.SetInt32(SD.SessionCart, _db.shoppingCart.GetAll(u => u.ApplicationUserId == cart.ApplicationUserId).Count() - 1);
             _db.shoppingCart.Remove(cart);
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
@@ -325,7 +329,9 @@ namespace DotNetProject.Areas.Customers.Controllers
 
                     _db.SaveChanges();
                 }
+                HttpContext.Session.Clear();
             }
+
             List<ShoppingCart> shoppingCarts =
                         _db.shoppingCart.GetAll(
                             u => u.ApplicationUserId == orderHeader.ApplicationUserId

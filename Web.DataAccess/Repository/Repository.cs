@@ -26,21 +26,33 @@ public class Repository<T> : IRepository<T> where T : class
         dbSet.RemoveRange(entity);
     }
 
-    public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+   public T Get(
+    Expression<Func<T, bool>> filter,
+    string? includeProperties = null,
+    bool tracked = true
+)
+{
+    IQueryable<T> query = dbSet;
+
+    if (!tracked)
     {
-        IQueryable<T> query = dbSet;
-        if (!string.IsNullOrEmpty(includeProperties))
-        {
-            foreach (var prop in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(prop.Trim());
-            }
-        }
-
-        query = query.Where(filter);
-
-        return query.AsNoTracking().FirstOrDefault();
+        query = query.AsNoTracking();
     }
+
+    if (!string.IsNullOrEmpty(includeProperties))
+    {
+        foreach (var prop in includeProperties.Split(
+            new char[] { ',' },
+            StringSplitOptions.RemoveEmptyEntries))
+        {
+            query = query.Include(prop.Trim());
+        }
+    }
+
+    query = query.Where(filter);
+
+    return query.FirstOrDefault();
+}
 
     public IEnumerable<T> GetAll(Expression<Func<T, bool>> ?filter,string? includeProperties = null)
     {

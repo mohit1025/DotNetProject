@@ -24,4 +24,6 @@ public class SD
     public const string PaymentStatusRefunded = "Refunded";
 
     public const string PaymentStatusCancelled = "Cancelled";
+
+    public const string SessionCart = "SessionShoppingCart";
 }

@@ -1,4 +1,7 @@
 ﻿@using Web.Utilities
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +52,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin
+                                Master Management
                             </a>
 
                             <ul class="dropdown-menu">
@@ -82,12 +85,15 @@
                                         Manage Orders
                             </a>
                         </li>
-                         <li>
+                       
+                                <li>
                                     <a class="nav-item" asp-area="Customers" asp-controller="Cart"
                                         asp-action="Index">
-                                        <i class="bi bi-cart nav-item"></i>&nbsp;
+                                        
+                                       @await Component.InvokeAsync("ShoppingCart")
                                     </a>
                             </li>
+                            
                     </ul>
                     <div class="d-flex">
                         <partial name="_LoginPartial" />

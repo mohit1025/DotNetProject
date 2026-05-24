@@ -72,7 +72,8 @@
                             <!-- Role -->
                             <div class="mb-4">
                                 <label asp-for="Input.Role" class="form-label"></label>
-                                <select asp-for="Input.Role" asp-items="Model.Input.RoleList" class="form-select" id="roleSelect">
+                                <select asp-for="Input.Role" asp-items="Model.Input.RoleList" class="form-select"
+                                        id="roleSelect">
                                     <option value="">-- Select Role --</option>
                                 </select>
                             </div>
@@ -80,8 +81,7 @@
                             <!-- Company -->
                             <div class="mb-4" id="companyField" style="display:none;">
                                 <label asp-for="Input.CompanyId" class="form-label"></label>
-                                <select asp-for="Input.CompanyId"
-                                        asp-items="Model.Input.CompanyList"
+                                <select asp-for="Input.CompanyId" asp-items="Model.Input.CompanyList"
                                         class="form-select">
                                     <option value="">-- Select Company --</option>
                                 </select>
@@ -96,6 +96,33 @@
                 </div>
 
             </div>
+        </div>
+        <hr />
+
+        <div class="text-center mt-4">
+
+            <h5 class="mb-3">Or sign up with</h5>
+
+            @if ((Model.ExternalLogins?.Count ?? 0) == 0)
+            {
+                <div class="text-muted">
+                    No external login providers configured.
+                </div>
+            }
+            else
+            {
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
+                        <button type="submit" class="btn btn-primary w-100 mb-2" name="provider" value="@provider.Name"
+                                title="Log in using your @provider.DisplayName account">
+
+                            Continue with @provider.DisplayName
+                        </button>
+                    }
+                </form>
+            }
         </div>
     </div>
 </div>

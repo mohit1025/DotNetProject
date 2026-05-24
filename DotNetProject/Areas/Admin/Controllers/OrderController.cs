@@ -14,7 +14,7 @@ using Stripe.Checkout;
 namespace DotNetProject.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = SD.Role_Admin)]
+    // [Authorize(Roles = SD.Role_Admin)]
     [Authorize]
     public class OrderController : Controller
     {
